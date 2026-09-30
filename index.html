@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentRai — Product Overview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F8FAFC; color: #0F172A; line-height: 1.6; }
+
+  /* Hero */
+  .hero { background: linear-gradient(135deg, #0F766E 0%, #0D9488 50%, #0EA5E9 100%); color: white; padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; border-radius: 50%; background: rgba(255,255,255,0.06); }
+  .hero::after { content: ''; position: absolute; bottom: -80px; left: -80px; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,255,255,0.05); }
+  .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(8px); border-radius: 999px; padding: 6px 18px; font-size: 13px; font-weight: 500; margin-bottom: 24px; }
+  .hero h1 { font-size: 52px; font-weight: 700; line-height: 1.15; margin-bottom: 20px; position: relative; z-index: 1; }
+  .hero h1 span { color: #99F6E4; }
+  .hero p { font-size: 20px; opacity: 0.85; max-width: 620px; margin: 0 auto 40px; position: relative; z-index: 1; }
+  .hero-stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; position: relative; z-index: 1; }
+  .stat { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 20px 28px; min-width: 140px; }
+  .stat-value { font-size: 32px; font-weight: 700; }
+  .stat-label { font-size: 13px; opacity: 0.7; margin-top: 4px; }
+
+  /* Section */
+  .section { padding: 72px 40px; max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 12px; font-weight: 600; color: #0D9488; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+  .section-title { font-size: 36px; font-weight: 700; color: #0F172A; margin-bottom: 16px; }
+  .section-desc { font-size: 17px; color: #64748B; max-width: 600px; margin-bottom: 48px; }
+
+  /* Problem section */
+  .problem-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .problem-card { background: white; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; }
+  .problem-icon { font-size: 28px; margin-bottom: 12px; }
+  .problem-title { font-size: 16px; font-weight: 600; color: #0F172A; margin-bottom: 8px; }
+  .problem-text { font-size: 14px; color: #64748B; line-height: 1.6; }
+
+  /* Features */
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .feature-card { background: white; border: 1px solid #E2E8F0; border-radius: 20px; padding: 28px; transition: box-shadow 0.2s; }
+  .feature-card:hover { box-shadow: 0 4px 24px rgba(13,148,136,0.1); border-color: #99F6E4; }
+  .feature-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+  .feature-title { font-size: 17px; font-weight: 600; color: #0F172A; margin-bottom: 8px; }
+  .feature-desc { font-size: 14px; color: #64748B; line-height: 1.6; margin-bottom: 16px; }
+  .feature-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 999px; }
+
+  /* Roles */
+  .roles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .role-card { background: white; border: 2px solid #E2E8F0; border-radius: 20px; padding: 24px; text-align: center; }
+  .role-emoji { font-size: 36px; margin-bottom: 12px; }
+  .role-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .role-subtitle { font-size: 12px; color: #94A3B8; margin-bottom: 16px; }
+  .role-perms { text-align: left; }
+  .perm { font-size: 12px; color: #64748B; padding: 4px 0; border-bottom: 1px solid #F1F5F9; display: flex; align-items: center; gap-8px; }
+  .perm:last-child { border: none; }
+  .perm::before { content: '✓'; color: #0D9488; font-weight: 700; margin-right: 8px; }
+  .perm.no::before { content: '✗'; color: #F87171; }
+
+  /* Workflow */
+  .workflow { background: white; border: 1px solid #E2E8F0; border-radius: 24px; padding: 40px; }
+  .workflow-steps { display: flex; align-items: flex-start; gap: 0; }
+  .workflow-step { flex: 1; text-align: center; position: relative; }
+  .workflow-step:not(:last-child)::after { content: '→'; position: absolute; right: -8px; top: 20px; font-size: 20px; color: #CBD5E1; font-weight: 300; }
+  .step-circle { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; margin: 0 auto 12px; }
+  .step-title { font-size: 13px; font-weight: 600; color: #0F172A; margin-bottom: 4px; }
+  .step-desc { font-size: 11px; color: #94A3B8; line-height: 1.5; }
+
+  /* AI section */
+  .ai-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .ai-card { background: linear-gradient(135deg, #F0FDFA, #ECFDF5); border: 1px solid #99F6E4; border-radius: 20px; padding: 28px; }
+  .ai-title { font-size: 16px; font-weight: 600; color: #0F766E; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .ai-desc { font-size: 14px; color: #047857; line-height: 1.6; }
+
+  /* Schedule */
+  .schedule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .schedule-item { background: white; border: 1px solid #E2E8F0; border-radius: 14px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+  .schedule-time { font-size: 18px; font-weight: 700; color: #0D9488; min-width: 60px; }
+  .schedule-desc { font-size: 14px; color: #0F172A; font-weight: 500; }
+  .schedule-sub { font-size: 12px; color: #94A3B8; }
+
+  /* CTA */
+  .cta { background: linear-gradient(135deg, #0F766E, #0D9488); border-radius: 24px; padding: 60px; text-align: center; color: white; }
+  .cta h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+  .cta p { font-size: 18px; opacity: 0.85; margin-bottom: 32px; }
+  .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary { background: white; color: #0D9488; font-weight: 600; padding: 14px 28px; border-radius: 12px; font-size: 15px; border: none; cursor: pointer; }
+  .btn-secondary { background: rgba(255,255,255,0.15); color: white; font-weight: 600; padding: 14px 28px; border-radius: 12px; font-size: 15px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; }
+
+  /* Divider */
+  .divider { height: 1px; background: #E2E8F0; margin: 0 40px; }
+
+  /* Footer */
+  .footer { padding: 40px; text-align: center; color: #94A3B8; font-size: 14px; }
+
+  /* German section */
+  .lang-toggle { display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; }
+  .lang-btn { padding: 8px 20px; border-radius: 999px; border: 1px solid #E2E8F0; background: white; font-size: 13px; font-weight: 500; cursor: pointer; color: #64748B; }
+  .lang-btn.active { background: #0D9488; color: white; border-color: #0D9488; }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 32px; }
+    .features-grid, .roles-grid { grid-template-columns: 1fr; }
+    .problem-grid, .ai-grid, .schedule-grid { grid-template-columns: 1fr; }
+    .workflow-steps { flex-direction: column; }
+    .workflow-step::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🇩🇪 Built for German Special Needs Organizations</div>
+  <h1>The <span>AI Care Platform</span><br>your team deserves</h1>
+  <p>AgentRai replaces paper documentation with voice-first AI — so your staff spends less time writing and more time caring.</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-value">30s</div>
+      <div class="stat-label">to document a session</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">0 €</div>
+      <div class="stat-label">paper forms needed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">100%</div>
+      <div class="stat-label">GDPR compliant</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">24/7</div>
+      <div class="stat-label">AI agents running</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<div class="section">
+  <div class="section-label">The Problem</div>
+  <div class="section-title">Paper is failing your children</div>
+  <div class="section-desc">Special needs organizations face the same daily struggle — too much administration, not enough care time.</div>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-icon">📄</div>
+      <div class="problem-title">Everything is on paper</div>
+      <div class="problem-text">Daily observations, medication logs, incident reports — all written by hand, filed in folders, impossible to search or analyze.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🔄</div>
+      <div class="problem-title">Shift handovers get lost</div>
+      <div class="problem-text">Critical information about a child's day doesn't reach the next shift. Important observations are forgotten or misread.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">👨‍👩‍👧</div>
+      <div class="problem-title">Parents are left in the dark</div>
+      <div class="problem-text">Families want to know how their child's day was. Writing individual parent updates takes hours that staff don't have.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">📋</div>
+      <div class="problem-title">Compliance is stressful</div>
+      <div class="problem-text">SGB VIII and SGB IX require detailed documentation. Missing records mean compliance failures and inspection problems.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- WORKFLOW -->
+<div class="section">
+  <div class="section-label">How It Works</div>
+  <div class="section-title">From voice to structured care — in seconds</div>
+  <div class="section-desc">A support worker speaks naturally. AgentRai does the rest.</div>
+
+  <div class="workflow">
+    <div class="workflow-steps">
+      <div class="workflow-step">
+        <div class="step-circle" style="background:#F0FDFA;">🎙️</div>
+        <div class="step-title">Staff speaks</div>
+        <div class="step-desc">30 seconds of natural speech about the session</div>
+      </div>
+      <div class="workflow-step">
+        <div class="step-circle" style="background:#F0FDFA;">🔊</div>
+        <div class="step-title">Whisper transcribes</div>
+        <div class="step-desc">Local AI converts speech to text — offline, no data leaves</div>
+      </div>
+      <div class="workflow-step">
+        <div class="step-circle" style="background:#F0FDFA;">🤖</div>
+        <div class="step-title">AI structures</div>
+        <div class="step-desc">Gemini extracts mood, activities, medication, follow-ups</div>
+      </div>
+      <div class="workflow-step">
+        <div class="step-circle" style="background:#F0FDFA;">✅</div>
+        <div class="step-title">Staff approves</div>
+        <div class="step-desc">One tap to confirm — human always in control</div>
+      </div>
+      <div class="workflow-step">
+        <div class="step-circle" style="background:#F0FDFA;">📱</div>
+        <div class="step-title">Parents notified</div>
+        <div class="step-desc">Warm daily report sent automatically at 17:00</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<div class="section">
+  <div class="section-label">Features</div>
+  <div class="section-title">Everything your organization needs</div>
+  <div class="section-desc">Built specifically for special needs schools and residential care organizations in Germany.</div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#F0FDFA;">🎙️</div>
+      <div class="feature-title">Voice Observations</div>
+      <div class="feature-desc">Speak a session note in 30 seconds. AI structures it into mood, activities, nutrition, medication, and follow-ups. Bilingual — English and German.</div>
+      <div class="feature-tags">
+        <span class="tag" style="background:#F0FDFA;color:#0D9488;">AI-powered</span>
+        <span class="tag" style="background:#F0FDFA;color:#0D9488;">EN + DE</span>
+        <span class="tag" style="background:#F0FDFA;color:#0D9488;">Offline</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FFF7ED;">👦</div>
+      <div class="feature-title">Child Digital Profile</div>
+      <div class="feature-desc">Complete profile per child — diagnosis, communication method, triggers, calming strategies, food preferences, medication schedule, and emergency contacts. Substitute staff ready in 2 minutes.</div>
+      <div class="feature-tags">
+        <span class="tag" style="background:#FFF7ED;color:#EA580C;">Behavioral profile</span>
+        <span class="tag" style="background:#FFF7ED;color:#EA580C;">Access controlled</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#F0FDF4;">📊</div>
+      <div class="feature-title">Daily Parent Report</div>
+      <div class="feature-desc">AI reads all observations from the day and generates a warm, readable parent update — communication, mood, eating, activities, therapy, medication. Sent automatically at 17:00.</div>
+      <div class="feature-tags">
+        <span class="tag" style="background:#F0FDF4;color:#16A34A;">Auto-generated</span>
+        <span class="tag" style="background:#F0FDF4;color:#16A34A;">RAG-powered</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#EFF6FF;">🔄</div>
+      <div class="feature-title">Shift Handovers</div>
+      <div class="feature-desc">AI reads the last 10 approved observations and generates a structured handover summary for the next shift. Ongoing concerns, immediate actions, and follow-ups — nothing gets lost.</div>
+      <div class="feature-tags">
+        <span class="tag" style="background:#EFF6FF;color:#2563EB;">RAG</span>
+        <span class="tag" style="background:#EFF6FF;color:#2563EB;">Agentic memory</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FDF4FF;">⚡</div>
+      <div class="feature-title">Incident Recording</div>
+      <div class="feature-desc">Record behavioral incidents in 30 seconds — situation, trigger, what helped, duration. Over time, AI detects patterns: "Leon becomes distressed during unexpected transitions."</div>
+      <div class="feature-tags">
+        <span class="tag" style="background:#FDF4FF;color:#9333EA;">Pattern detection</span>
+        <span class="tag" style="background:#FDF4FF;color:#9333EA;">30 seconds</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FFF1F2;">✅</div>
+      <div class="feature-title">Compliance Monitoring</div>
+      <div class="feature-desc">Automatic nightly check against SGB VIII/IX standards. Flags missing mobility assessments, overdue family updates, and documentation gaps. Never miss an inspection again.</div>
+      <div class="feature-tags">
+        <span class="tag" style="background:#FFF1F2;color:#E11D48;">SGB VIII/IX</span>
+        <span class="tag" style="background:#FFF1F2;color:#E11D48;">Auto nightly</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#F0FDFA;">👥</div>
+      <div class="feature-title">Group Management</div>
+      <div class="feature-desc">Organize children and staff into groups — Sunflowers, Butterflies, etc. Each group has a head worker. Staff see only their group. Directors see everything.</div>
+      <div class="feature-tags">
+        <span class="tag" style="background:#F0FDFA;color:#0D9488;">Role-based</span>
+        <span class="tag" style="background:#F0FDFA;color:#0D9488;">RBAC</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FFFBEB;">📅</div>
+      <div class="feature-title">Appointments & Schedules</div>
+      <div class="feature-desc">Track hospital visits, therapy sessions, and school appointments per child. Employee work schedules with shift times, vacation days, and sick leave — all in one place.</div>
+      <div class="feature-tags">
+        <span class="tag" style="background:#FFFBEB;color:#D97706;">Appointments</span>
+        <span class="tag" style="background:#FFFBEB;color:#D97706;">Schedules</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#F0FDF4;">💬</div>
+      <div class="feature-title">Family Portal & Messaging</div>
+      <div class="feature-desc">Parents get their own login — linked to their child only. They see daily reports, approved observations, and can send messages directly to Leiterin or Gruppenleitung.</div>
+      <div class="feature-tags">
+        <span class="tag" style="background:#F0FDF4;color:#16A34A;">Parent app</span>
+        <span class="tag" style="background:#F0FDF4;color:#16A34A;">Secure</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ROLES -->
+<div class="section">
+  <div class="section-label">Access Control</div>
+  <div class="section-title">The right access for every role</div>
+  <div class="section-desc">Every staff member sees exactly what they need — nothing more, nothing less.</div>
+
+  <div class="roles-grid">
+    <div class="role-card" style="border-color:#C4B5FD;">
+      <div class="role-emoji">👑</div>
+      <div class="role-title" style="color:#7C3AED;">Leiterin / Chefin</div>
+      <div class="role-subtitle">Director</div>
+      <div class="role-perms">
+        <div class="perm">Full system access</div>
+        <div class="perm">Add/remove children</div>
+        <div class="perm">Manage all staff</div>
+        <div class="perm">View all reports</div>
+        <div class="perm">Reply to family messages</div>
+        <div class="perm">Compliance dashboard</div>
+      </div>
+    </div>
+
+    <div class="role-card" style="border-color:#93C5FD;">
+      <div class="role-emoji">🏫</div>
+      <div class="role-title" style="color:#2563EB;">Gruppenleitung</div>
+      <div class="role-subtitle">Group Head</div>
+      <div class="role-perms">
+        <div class="perm">Full access — own group</div>
+        <div class="perm">Add children to group</div>
+        <div class="perm">Approve observations</div>
+        <div class="perm">Generate reports</div>
+        <div class="perm">Reply to family messages</div>
+        <div class="perm no">Other groups hidden</div>
+      </div>
+    </div>
+
+    <div class="role-card" style="border-color:#86EFAC;">
+      <div class="role-emoji">💚</div>
+      <div class="role-title" style="color:#16A34A;">FSJ / BFD / Azubi</div>
+      <div class="role-subtitle">Support Worker</div>
+      <div class="role-perms">
+        <div class="perm">Create observations</div>
+        <div class="perm">Record incidents</div>
+        <div class="perm">View child profiles</div>
+        <div class="perm">View own schedule</div>
+        <div class="perm no">Cannot add children</div>
+        <div class="perm no">Cannot manage staff</div>
+      </div>
+    </div>
+
+    <div class="role-card" style="border-color:#FDE68A;">
+      <div class="role-emoji">👨‍👩‍👧</div>
+      <div class="role-title" style="color:#D97706;">Elternteil</div>
+      <div class="role-subtitle">Family Member</div>
+      <div class="role-perms">
+        <div class="perm">Daily reports — own child</div>
+        <div class="perm">Approved observations</div>
+        <div class="perm">Send messages to team</div>
+        <div class="perm">View appointments</div>
+        <div class="perm no">No other children</div>
+        <div class="perm no">No staff data</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- AI AGENTS -->
+<div class="section">
+  <div class="section-label">AI Technology</div>
+  <div class="section-title">6 AI agents working for your team</div>
+  <div class="section-desc">Each agent has a specific job. They share memory, coordinate automatically, and run 24/7 in the background.</div>
+
+  <div class="ai-grid">
+    <div class="ai-card">
+      <div class="ai-title">🎙️ Documentation Agent</div>
+      <div class="ai-desc">Converts spoken transcripts into structured care notes. Detects missing fields, assigns urgency levels, and flags for review. Supports German and English.</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-title">🔄 Handover Agent (RAG)</div>
+      <div class="ai-desc">Retrieves the last 10 approved observations before generating a shift summary. Uses real documented history — never invents information. Updates agentic memory after every run.</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-title">📊 Daily Report Agent</div>
+      <div class="ai-desc">Reads all observations from the day and generates a warm parent update. Runs automatically at 17:00 for every active child. Bilingual output.</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-title">✅ Compliance Agent</div>
+      <div class="ai-desc">Checks documentation against SGB VIII/IX standards every night. Flags overdue mobility assessments, missing family updates, and incomplete records. Generates compliance reports.</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-title">🔔 Reminder Agent</div>
+      <div class="ai-desc">Scans recent observations for missing critical fields. Runs at 06:00 to alert staff before the shift starts. Prevents incomplete documentation before it becomes a compliance issue.</div>
+    </div>
+    <div class="ai-card">
+      <div class="ai-title">💬 Family Communication Agent</div>
+      <div class="ai-desc">Generates warm, non-clinical family updates from the last 14 days of approved observations. Converts clinical language into readable summaries parents actually understand.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- AUTOMATION SCHEDULE -->
+<div class="section">
+  <div class="section-label">Automation</div>
+  <div class="section-title">Runs automatically — no staff action needed</div>
+  <div class="section-desc">AgentRai's scheduler runs 4 jobs every day without anyone pressing a button.</div>
+
+  <div class="schedule-grid">
+    <div class="schedule-item">
+      <div class="schedule-time">06:00</div>
+      <div>
+        <div class="schedule-desc">Morning reminders</div>
+        <div class="schedule-sub">Checks all children for missing documentation from previous day</div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">06:30</div>
+      <div>
+        <div class="schedule-desc">Shift handovers generated</div>
+        <div class="schedule-sub">AI reads overnight observations and prepares morning briefings</div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">17:00</div>
+      <div>
+        <div class="schedule-desc">Daily parent reports</div>
+        <div class="schedule-sub">Warm summaries generated for all children and sent to family portal</div>
+      </div>
+    </div>
+    <div class="schedule-item">
+      <div class="schedule-time">21:00</div>
+      <div>
+        <div class="schedule-desc">Compliance check</div>
+        <div class="schedule-sub">Every child checked against SGB VIII/IX standards — gaps flagged</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PRIVACY -->
+<div class="section">
+  <div class="section-label">Privacy & Security</div>
+  <div class="section-title">Built for German data protection law</div>
+
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="problem-icon">🇩🇪</div>
+      <div class="problem-title">GDPR compliant</div>
+      <div class="problem-text">All data processed according to DSGVO. Data hosted on servers in Germany. No data sent to foreign countries without consent.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🔒</div>
+      <div class="problem-title">Role-based access</div>
+      <div class="problem-text">Every user sees only what their role permits. Family members can only access their own child's data. Audit trail records every action.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🎙️</div>
+      <div class="problem-title">Voice processing is local</div>
+      <div class="problem-text">Speech-to-text runs entirely on your server using OpenAI Whisper. Audio never leaves your organization's infrastructure.</div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">📋</div>
+      <div class="problem-title">Complete audit trail</div>
+      <div class="problem-text">Every action logged — who created a note, who approved it, who read it. Full traceability for inspections and compliance reviews.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<div class="section">
+  <div class="cta">
+    <h2>Ready to see AgentRai in action?</h2>
+    <p>We'd love to show you a live demo tailored to your organization's workflow. No commitment required.</p>
+    <div class="cta-buttons">
+      <button class="btn-primary">Request a Demo</button>
+      <button class="btn-secondary">Contact Us</button>
+    </div>
+    <p style="margin-top:24px;font-size:14px;opacity:0.6;">fahad@agentrai.de · agentrai.de</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p style="font-weight:600;color:#0D9488;font-size:16px;margin-bottom:8px;">AgentRai</p>
+  <p>AI-Powered Care Coordination · Built in Germany · GDPR Compliant</p>
+  <p style="margin-top:8px;">© 2026 AgentRai. All rights reserved.</p>
+</div>
+
+</body>
+</html>
