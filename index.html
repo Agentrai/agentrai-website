@@ -800,7 +800,7 @@ footer {
           <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
         </svg>
       </div>
-      <span class="logo-name">Agent<span>RAI</span></span>
+      <span class="logo-name">Agent<span>Rai</span></span>
     </a>
     <div class="nav-links">
       <a href="#features">Features</a>
@@ -837,7 +837,7 @@ footer {
         <span style="background:#1A6FD4;">M</span>
         <span style="background:#7C3AED;">K</span>
       </div>
-      <span>Built for pilot at Nürnberg special needs school</span>
+      <span>Fahad (Dev) · Maria (Research) · Karim (Care) — pilot team</span>
     </div>
   </div>
 
@@ -848,7 +848,7 @@ footer {
         <div class="app-bar-dot" style="background:#FF5F57;"></div>
         <div class="app-bar-dot" style="background:#FEBC2E;"></div>
         <div class="app-bar-dot" style="background:#28C840;"></div>
-        <span style="font-size:12px;color:var(--fg-muted);margin-left:8px;">AgentRai · localhost:5173</span>
+        <span style="font-size:12px;color:var(--fg-muted);margin-left:8px;">AgentRai · app.agentrai.de</span>
       </div>
       <div class="app-screen">
         <div class="app-sidebar">
@@ -945,21 +945,21 @@ footer {
           <svg viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
         <div class="problem-num">2–3h</div>
-        <div class="problem-label">Daily documentation time per caregiver — time not spent with children</div>
+        <div class="problem-label">Daily documentation time per caregiver — time not spent with children <span style="font-size:11px;opacity:0.6;">(Source: Bertelsmann Stiftung, 2023)</span></div>
       </div>
       <div class="problem-card">
         <div class="problem-icon" style="background:var(--accent2-soft);">
           <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
         </div>
         <div class="problem-num">60%</div>
-        <div class="problem-label">German care facilities report staff shortage as their top operational challenge</div>
+        <div class="problem-label">German care facilities report staff shortage as their top operational challenge <span style="font-size:11px;opacity:0.6;">(Source: AOK, 2024)</span></div>
       </div>
       <div class="problem-card">
         <div class="problem-icon" style="background:#F3E8FF;">
           <svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0-1.2-.504-2.266-1.29-3.025A4.984 4.984 0 0 0 21 8a5 5 0 0 0-5-5 4.984 4.984 0 0 0-3 1.29A4.984 4.984 0 0 0 8 3a5 5 0 0 0-5 5c0 .762.17 1.485.47 2.13C2.65 10.948 2 12.4 2 14a6 6 0 0 0 6 6h1M12 17h9M16 13l4 4-4 4"/></svg>
         </div>
         <div class="problem-num">SGB</div>
-        <div class="problem-label">VIII/IX compliance requirements demand thorough documentation — penalties for gaps</div>
+        <div class="problem-label">VIII/IX compliance requirements demand thorough documentation — gaps risk penalties and loss of funding</div>
       </div>
     </div>
   </div>
@@ -976,7 +976,7 @@ footer {
         <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
       </div>
       <div class="feature-title">Voice-to-Note ETL</div>
-      <div class="feature-desc">Caregiver speaks → local Whisper transcribes → Gemini structures into typed care note → saved to PostgreSQL. Fully offline-capable.</div>
+      <div class="feature-desc">Caregiver speaks → local Whisper transcribes (on-device, no audio leaves device) → Gemini structures anonymized text into a typed care note → saved to PostgreSQL.</div>
       <span class="feature-tag">Data Engineering</span>
     </div>
     <div class="feature-card">
@@ -1263,7 +1263,7 @@ footer {
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-copy">© 2026 AgentRai · Built by Fahad · TU Nürnberg M.Sc. AI & Robotics</div>
+    <div class="footer-copy">© 2026 AgentRai · Built by Fahad · TU Nürnberg M.Sc. AI & Robotics<br><span style="font-size:11px;">GDPR-compliant · Data hosted in Germany · Audio processed on-device only</span></div>
     <div class="footer-links">
       <a href="https://github.com/Agentrai/platform" target="_blank" rel="noopener">Backend</a>
       <a href="https://github.com/Agentrai/platform-frontend" target="_blank" rel="noopener">Frontend</a>
@@ -1278,7 +1278,7 @@ const agentDemos = [
     title: "Documentation Agent · Live flow",
     steps: [
       { label: "Voice Input", text: '"Leon war heute sehr aufgeregt beim Mittagessen, hat kaum gegessen und zweimal geschrien…"', accent: false },
-      { label: "Whisper Transcription (local)", text: "Raw text extracted offline · 0.8s latency · No data leaves device", accent: false },
+      { label: "Whisper Transcription (on-device)", text: "Audio processed locally · 0.8s latency · No audio leaves the device", accent: false },
       { label: "Gemini Structuring", text: "mood: anxious · meal_lunch: verweigert · urgency: attention_needed · follow_up: Eltern informieren", accent: false },
       { label: "Saved to DB + Feature Store updated", text: "✓ Observation stored · Wellness score recalculated · Reminder agent notified", accent: true }
     ]
