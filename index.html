@@ -1,504 +1,1360 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgentRai — Product Overview</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>AgentRai</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">
+
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F8FAFC; color: #0F172A; line-height: 1.6; }
+/* === DESIGN TOKENS === */
+/* Layout: full-bleed hero → feature strips → social proof → CTA */
+:root {
+  --bg: #F7F9FC;
+  --bg-card: #FFFFFF;
+  --fg: #0D1117;
+  --fg-mid: #3D4B5C;
+  --fg-muted: #7A8899;
+  --border: #E4E9F0;
+  --accent: #0C8A6E;
+  --accent-soft: #E6F5F1;
+  --accent-glow: rgba(12, 138, 110, 0.12);
+  --accent2: #1A6FD4;
+  --accent2-soft: #E8F1FC;
+  --warn: #D97706;
+  --warn-soft: #FEF3C7;
+  --danger: #DC2626;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.06);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --font-display: 'DM Sans', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
 
-  /* Hero */
-  .hero { background: linear-gradient(135deg, #0F766E 0%, #0D9488 50%, #0EA5E9 100%); color: white; padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; border-radius: 50%; background: rgba(255,255,255,0.06); }
-  .hero::after { content: ''; position: absolute; bottom: -80px; left: -80px; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,255,255,0.05); }
-  .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(8px); border-radius: 999px; padding: 6px 18px; font-size: 13px; font-weight: 500; margin-bottom: 24px; }
-  .hero h1 { font-size: 52px; font-weight: 700; line-height: 1.15; margin-bottom: 20px; position: relative; z-index: 1; }
-  .hero h1 span { color: #99F6E4; }
-  .hero p { font-size: 20px; opacity: 0.85; max-width: 620px; margin: 0 auto 40px; position: relative; z-index: 1; }
-  .hero-stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; position: relative; z-index: 1; }
-  .stat { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 20px 28px; min-width: 140px; }
-  .stat-value { font-size: 32px; font-weight: 700; }
-  .stat-label { font-size: 13px; opacity: 0.7; margin-top: 4px; }
-
-  /* Section */
-  .section { padding: 72px 40px; max-width: 1100px; margin: 0 auto; }
-  .section-label { font-size: 12px; font-weight: 600; color: #0D9488; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
-  .section-title { font-size: 36px; font-weight: 700; color: #0F172A; margin-bottom: 16px; }
-  .section-desc { font-size: 17px; color: #64748B; max-width: 600px; margin-bottom: 48px; }
-
-  /* Problem section */
-  .problem-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-  .problem-card { background: white; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; }
-  .problem-icon { font-size: 28px; margin-bottom: 12px; }
-  .problem-title { font-size: 16px; font-weight: 600; color: #0F172A; margin-bottom: 8px; }
-  .problem-text { font-size: 14px; color: #64748B; line-height: 1.6; }
-
-  /* Features */
-  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .feature-card { background: white; border: 1px solid #E2E8F0; border-radius: 20px; padding: 28px; transition: box-shadow 0.2s; }
-  .feature-card:hover { box-shadow: 0 4px 24px rgba(13,148,136,0.1); border-color: #99F6E4; }
-  .feature-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
-  .feature-title { font-size: 17px; font-weight: 600; color: #0F172A; margin-bottom: 8px; }
-  .feature-desc { font-size: 14px; color: #64748B; line-height: 1.6; margin-bottom: 16px; }
-  .feature-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 999px; }
-
-  /* Roles */
-  .roles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .role-card { background: white; border: 2px solid #E2E8F0; border-radius: 20px; padding: 24px; text-align: center; }
-  .role-emoji { font-size: 36px; margin-bottom: 12px; }
-  .role-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-  .role-subtitle { font-size: 12px; color: #94A3B8; margin-bottom: 16px; }
-  .role-perms { text-align: left; }
-  .perm { font-size: 12px; color: #64748B; padding: 4px 0; border-bottom: 1px solid #F1F5F9; display: flex; align-items: center; gap-8px; }
-  .perm:last-child { border: none; }
-  .perm::before { content: '✓'; color: #0D9488; font-weight: 700; margin-right: 8px; }
-  .perm.no::before { content: '✗'; color: #F87171; }
-
-  /* Workflow */
-  .workflow { background: white; border: 1px solid #E2E8F0; border-radius: 24px; padding: 40px; }
-  .workflow-steps { display: flex; align-items: flex-start; gap: 0; }
-  .workflow-step { flex: 1; text-align: center; position: relative; }
-  .workflow-step:not(:last-child)::after { content: '→'; position: absolute; right: -8px; top: 20px; font-size: 20px; color: #CBD5E1; font-weight: 300; }
-  .step-circle { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; margin: 0 auto 12px; }
-  .step-title { font-size: 13px; font-weight: 600; color: #0F172A; margin-bottom: 4px; }
-  .step-desc { font-size: 11px; color: #94A3B8; line-height: 1.5; }
-
-  /* AI section */
-  .ai-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  .ai-card { background: linear-gradient(135deg, #F0FDFA, #ECFDF5); border: 1px solid #99F6E4; border-radius: 20px; padding: 28px; }
-  .ai-title { font-size: 16px; font-weight: 600; color: #0F766E; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-  .ai-desc { font-size: 14px; color: #047857; line-height: 1.6; }
-
-  /* Schedule */
-  .schedule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .schedule-item { background: white; border: 1px solid #E2E8F0; border-radius: 14px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
-  .schedule-time { font-size: 18px; font-weight: 700; color: #0D9488; min-width: 60px; }
-  .schedule-desc { font-size: 14px; color: #0F172A; font-weight: 500; }
-  .schedule-sub { font-size: 12px; color: #94A3B8; }
-
-  /* CTA */
-  .cta { background: linear-gradient(135deg, #0F766E, #0D9488); border-radius: 24px; padding: 60px; text-align: center; color: white; }
-  .cta h2 { font-size: 36px; font-weight: 700; margin-bottom: 16px; }
-  .cta p { font-size: 18px; opacity: 0.85; margin-bottom: 32px; }
-  .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { background: white; color: #0D9488; font-weight: 600; padding: 14px 28px; border-radius: 12px; font-size: 15px; border: none; cursor: pointer; }
-  .btn-secondary { background: rgba(255,255,255,0.15); color: white; font-weight: 600; padding: 14px 28px; border-radius: 12px; font-size: 15px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; }
-
-  /* Divider */
-  .divider { height: 1px; background: #E2E8F0; margin: 0 40px; }
-
-  /* Footer */
-  .footer { padding: 40px; text-align: center; color: #94A3B8; font-size: 14px; }
-
-  /* German section */
-  .lang-toggle { display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; }
-  .lang-btn { padding: 8px 20px; border-radius: 999px; border: 1px solid #E2E8F0; background: white; font-size: 13px; font-weight: 500; cursor: pointer; color: #64748B; }
-  .lang-btn.active { background: #0D9488; color: white; border-color: #0D9488; }
-
-  @media (max-width: 768px) {
-    .hero h1 { font-size: 32px; }
-    .features-grid, .roles-grid { grid-template-columns: 1fr; }
-    .problem-grid, .ai-grid, .schedule-grid { grid-template-columns: 1fr; }
-    .workflow-steps { flex-direction: column; }
-    .workflow-step::after { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B0F14;
+    --bg-card: #141A22;
+    --fg: #EDF2F7;
+    --fg-mid: #A0AEC0;
+    --fg-muted: #5A6880;
+    --border: #1E2A38;
+    --accent: #10B88E;
+    --accent-soft: #0D2820;
+    --accent-glow: rgba(16, 184, 142, 0.15);
+    --accent2: #3B82F6;
+    --accent2-soft: #0D1E35;
+    --warn: #F59E0B;
+    --warn-soft: #1E1400;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
+    color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+  --bg: #0B0F14;
+  --bg-card: #141A22;
+  --fg: #EDF2F7;
+  --fg-mid: #A0AEC0;
+  --fg-muted: #5A6880;
+  --border: #1E2A38;
+  --accent: #10B88E;
+  --accent-soft: #0D2820;
+  --accent-glow: rgba(16, 184, 142, 0.15);
+  --accent2: #3B82F6;
+  --accent2-soft: #0D1E35;
+  --warn: #F59E0B;
+  --warn-soft: #1E1400;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+
+/* NAV */
+nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  gap: 16px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.logo-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), #1A8FB0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-mark svg { width: 18px; height: 18px; }
+.logo-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--fg);
+  letter-spacing: -0.3px;
+}
+.logo-name span { color: var(--accent); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-links a {
+  color: var(--fg-mid);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s;
+}
+.nav-links a:hover { color: var(--fg); background: var(--border); }
+.nav-cta {
+  background: var(--accent);
+  color: #fff !important;
+  border-radius: var(--radius-sm);
+  padding: 7px 16px !important;
+}
+.nav-cta:hover { background: #0A7A62 !important; color: #fff !important; }
+
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+}
+
+/* HERO */
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 0 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+@media (max-width: 820px) {
+  .hero { grid-template-columns: 1fr; gap: 40px; padding: 48px 0 40px; }
+  .hero-visual { order: -1; }
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid rgba(12,138,110,0.2);
+  padding: 5px 12px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+}
+.pulse {
+  width: 7px; height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -1.5px;
+  color: var(--fg);
+  margin: 0 0 20px;
+  text-wrap: balance;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--accent), #1A9BCC);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  color: var(--fg-mid);
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 0 32px;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: all 0.15s;
+  box-shadow: 0 4px 14px rgba(12,138,110,0.3);
+}
+.btn-primary:hover { background: #0A7A62; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(12,138,110,0.4); }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  color: var(--fg);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  transition: all 0.15s;
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  color: var(--fg-muted);
+  font-size: 13px;
+}
+.trust-avatars {
+  display: flex;
+}
+.trust-avatars span {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  margin-left: -8px;
+}
+.trust-avatars span:first-child { margin-left: 0; }
+
+/* HERO VISUAL — fake app screenshot */
+.hero-visual {
+  position: relative;
+}
+.app-window {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.app-bar {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.app-bar-dot { width: 10px; height: 10px; border-radius: 50%; }
+.app-screen {
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  min-height: 320px;
+}
+.app-sidebar {
+  width: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 4px;
+}
+.app-nav-dot {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.app-nav-dot svg { width: 16px; height: 16px; }
+.app-nav-dot.active { background: var(--accent); }
+.app-nav-dot.active svg { color: #fff; }
+.app-nav-dot:not(.active) { background: var(--border); }
+.app-nav-dot:not(.active) svg { color: var(--fg-muted); }
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.app-greeting {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--fg);
+}
+.app-sub { font-size: 11px; color: var(--fg-muted); margin-top: 1px; }
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.stat-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+}
+.stat-icon {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 6px;
+}
+.stat-icon svg { width: 13px; height: 13px; }
+.stat-num { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--fg); line-height: 1; }
+.stat-label { font-size: 10px; color: var(--fg-muted); margin-top: 2px; }
+
+.child-list { display: flex; flex-direction: column; gap: 6px; }
+.child-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+}
+.child-avatar {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+}
+.child-info { flex: 1; min-width: 0; }
+.child-name { font-size: 12px; font-weight: 600; color: var(--fg); }
+.child-detail { font-size: 10px; color: var(--fg-muted); }
+.child-badge {
+  font-size: 9px; font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 100px;
+}
+
+.ai-bubble {
+  background: linear-gradient(135deg, var(--accent-soft), var(--accent2-soft));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 11px;
+  color: var(--fg-mid);
+  line-height: 1.5;
+  position: relative;
+}
+.ai-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.float-badge {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background: var(--warn);
+  color: #fff;
+  border-radius: 100px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+}
+
+/* SECTION SHARED */
+section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 0;
+}
+.section-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.2;
+  color: var(--fg);
+  margin: 0 0 12px;
+  text-wrap: balance;
+}
+.section-sub {
+  font-size: 16px;
+  color: var(--fg-mid);
+  max-width: 540px;
+  line-height: 1.7;
+  margin: 0 0 48px;
+}
+
+/* PROBLEM STRIP */
+.problem-strip {
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding-block: 0;
+}
+.problem-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 0;
+}
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+@media (max-width: 700px) {
+  .problem-grid { grid-template-columns: 1fr; }
+}
+.problem-card {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.problem-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+.problem-icon svg { width: 20px; height: 20px; }
+.problem-num {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.problem-label { font-size: 13px; color: var(--fg-mid); line-height: 1.5; }
+
+/* FEATURES */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 820px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+  .features-grid { grid-template-columns: 1fr; }
+}
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: all 0.2s;
+}
+.feature-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.feature-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.feature-icon svg { width: 22px; height: 22px; }
+.feature-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 8px;
+}
+.feature-desc { font-size: 14px; color: var(--fg-mid); line-height: 1.6; }
+.feature-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 100px;
+  margin-top: 14px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* AGENTS */
+.agents-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .agents-layout { grid-template-columns: 1fr; }
+}
+.agent-list { display: flex; flex-direction: column; gap: 12px; }
+.agent-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.agent-item:hover, .agent-item.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.agent-dot {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.agent-dot svg { width: 18px; height: 18px; }
+.agent-name { font-size: 14px; font-weight: 600; color: var(--fg); margin-bottom: 3px; }
+.agent-desc { font-size: 13px; color: var(--fg-mid); line-height: 1.5; }
+
+.agent-demo {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.agent-demo-bar {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.agent-demo-body { padding: 20px; }
+.demo-step {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.demo-step:last-child { margin-bottom: 0; }
+.demo-step-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.demo-step-content { flex: 1; min-width: 0; }
+.demo-step-label { font-size: 11px; font-weight: 600; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+.demo-step-text {
+  font-size: 13px;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  line-height: 1.5;
+}
+.demo-step-text.accent { background: var(--accent-soft); border-color: rgba(12,138,110,0.2); color: var(--accent); font-weight: 500; }
+
+/* STACK */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 700px) {
+  .stack-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.stack-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  text-align: center;
+}
+.stack-badge {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+.stack-name { font-size: 13px; font-weight: 600; color: var(--fg); margin-bottom: 3px; }
+.stack-role { font-size: 12px; color: var(--fg-muted); }
+
+/* PRICING */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 700px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+.pricing-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  position: relative;
+}
+.pricing-card.featured {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.pricing-popular {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+.pricing-tier { font-size: 13px; font-weight: 600; color: var(--fg-muted); margin-bottom: 8px; }
+.pricing-price {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--fg);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 4px;
+}
+.pricing-period { font-size: 13px; color: var(--fg-muted); margin-bottom: 20px; }
+.pricing-features { list-style: none; padding: 0; margin: 0 0 24px; display: flex; flex-direction: column; gap: 10px; }
+.pricing-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--fg-mid);
+}
+.check { color: var(--accent); font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.pricing-btn {
+  display: block;
+  text-align: center;
+  padding: 11px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.pricing-btn.primary { background: var(--accent); color: #fff; }
+.pricing-btn.primary:hover { background: #0A7A62; }
+.pricing-btn.outline { border: 1px solid var(--border); color: var(--fg); }
+.pricing-btn.outline:hover { border-color: var(--accent); color: var(--accent); }
+
+/* FOOTER */
+footer {
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  padding-left: max(24px, env(safe-area-inset-left, 0px));
+  padding-right: max(24px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-copy { font-size: 13px; color: var(--fg-muted); }
+.footer-links { display: flex; gap: 16px; }
+.footer-links a { font-size: 13px; color: var(--fg-muted); text-decoration: none; }
+.footer-links a:hover { color: var(--accent); }
+
+/* COMPLIANCE BADGE */
+.compliance-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 32px;
+}
+.compliance-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fg-mid);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 100px;
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: var(--border);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, .btn-primary, .feature-card { transition: none !important; animation: none !important; }
+}
 </style>
-</head>
-<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <span class="logo-name">Agent<span>RAI</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#agents">Agents</a>
+      <a href="#stack">Stack</a>
+      <a href="#pricing">Pricing</a>
+      <a href="https://github.com/Agentrai" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/Agentrai/platform" target="_blank" rel="noopener" class="nav-cta">View Repo →</a>
+    </div>
+  </div>
+</nav>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-badge">🇩🇪 Built for German Special Needs Organizations</div>
-  <h1>The <span>AI Care Platform</span><br>your team deserves</h1>
-  <p>AgentRai replaces paper documentation with voice-first AI — so your staff spends less time writing and more time caring.</p>
-  <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-value">30s</div>
-      <div class="stat-label">to document a session</div>
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="pulse"></span>
+      Pilot-ready · German special needs schools
     </div>
-    <div class="stat">
-      <div class="stat-value">0 €</div>
-      <div class="stat-label">paper forms needed</div>
+    <h1>Agentic AI for <em>care coordination</em></h1>
+    <p class="hero-sub">AgentRai reduces documentation burden for care staff through voice-first note capture, AI-powered shift handovers, and automated parent updates — built for SGB VIII/IX compliance.</p>
+    <div class="hero-actions">
+      <a href="https://github.com/Agentrai/platform" target="_blank" rel="noopener" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        Backend Repo
+      </a>
+      <a href="https://github.com/Agentrai/platform-frontend" target="_blank" rel="noopener" class="btn-secondary">
+        Frontend Repo →
+      </a>
     </div>
-    <div class="stat">
-      <div class="stat-value">100%</div>
-      <div class="stat-label">GDPR compliant</div>
+    <div class="hero-trust">
+      <div class="trust-avatars">
+        <span style="background:#0C8A6E;">F</span>
+        <span style="background:#1A6FD4;">M</span>
+        <span style="background:#7C3AED;">K</span>
+      </div>
+      <span>Built for pilot at Nürnberg special needs school</span>
     </div>
-    <div class="stat">
-      <div class="stat-value">24/7</div>
-      <div class="stat-label">AI agents running</div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="app-window" style="position:relative;">
+      <div class="float-badge">✦ AI Active</div>
+      <div class="app-bar">
+        <div class="app-bar-dot" style="background:#FF5F57;"></div>
+        <div class="app-bar-dot" style="background:#FEBC2E;"></div>
+        <div class="app-bar-dot" style="background:#28C840;"></div>
+        <span style="font-size:12px;color:var(--fg-muted);margin-left:8px;">AgentRai · localhost:5173</span>
+      </div>
+      <div class="app-screen">
+        <div class="app-sidebar">
+          <div class="app-nav-dot active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </div>
+          <div class="app-nav-dot">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <div class="app-nav-dot">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="app-nav-dot">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+        </div>
+        <div class="app-main">
+          <div>
+            <div class="app-greeting">Guten Morgen, Kim 👋</div>
+            <div class="app-sub">Freitag, 16. Oktober 2026 · Frühschicht</div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:var(--accent-soft);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </div>
+              <div class="stat-num">5</div>
+              <div class="stat-label">Kinder</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:var(--accent2-soft);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+              </div>
+              <div class="stat-num">12</div>
+              <div class="stat-label">Notizen</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:var(--warn-soft);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              </div>
+              <div class="stat-num">3</div>
+              <div class="stat-label">Berichte</div>
+            </div>
+          </div>
+          <div class="child-list">
+            <div class="child-row">
+              <div class="child-avatar">L</div>
+              <div class="child-info">
+                <div class="child-name">Leon Weber</div>
+                <div class="child-detail">Room 101 · ASD</div>
+              </div>
+              <span class="child-badge" style="background:var(--warn-soft);color:var(--warn);">high</span>
+            </div>
+            <div class="child-row">
+              <div class="child-avatar" style="background:var(--accent2);">E</div>
+              <div class="child-info">
+                <div class="child-name">Emre Yilmaz</div>
+                <div class="child-detail">Room 102 · ADHS</div>
+              </div>
+              <span class="child-badge" style="background:var(--warn-soft);color:var(--warn);">high</span>
+            </div>
+            <div class="child-row">
+              <div class="child-avatar" style="background:#7C3AED;">S</div>
+              <div class="child-info">
+                <div class="child-name">Sophie Mueller</div>
+                <div class="child-detail">Room 101 · DS</div>
+              </div>
+              <span class="child-badge" style="background:var(--accent-soft);color:var(--accent);">medium</span>
+            </div>
+          </div>
+          <div class="ai-bubble">
+            <div class="ai-label">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              KI-Agent
+            </div>
+            Schichtübergabe bereit — 3 offene Punkte zu Leon, Emre und Sophie.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM NUMBERS -->
+<div class="problem-strip">
+  <div class="problem-inner">
+    <div style="text-align:center;margin-bottom:36px;">
+      <div class="section-eyebrow">Das Problem</div>
+      <div class="section-title" style="margin-bottom:0;">Dokumentation frisst Pflegezeit</div>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="problem-icon" style="background:var(--warn-soft);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="problem-num">2–3h</div>
+        <div class="problem-label">Daily documentation time per caregiver — time not spent with children</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon" style="background:var(--accent2-soft);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+        </div>
+        <div class="problem-num">60%</div>
+        <div class="problem-label">German care facilities report staff shortage as their top operational challenge</div>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon" style="background:#F3E8FF;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c0-1.2-.504-2.266-1.29-3.025A4.984 4.984 0 0 0 21 8a5 5 0 0 0-5-5 4.984 4.984 0 0 0-3 1.29A4.984 4.984 0 0 0 8 3a5 5 0 0 0-5 5c0 .762.17 1.485.47 2.13C2.65 10.948 2 12.4 2 14a6 6 0 0 0 6 6h1M12 17h9M16 13l4 4-4 4"/></svg>
+        </div>
+        <div class="problem-num">SGB</div>
+        <div class="problem-label">VIII/IX compliance requirements demand thorough documentation — penalties for gaps</div>
+      </div>
     </div>
   </div>
 </div>
-
-<!-- PROBLEM -->
-<div class="section">
-  <div class="section-label">The Problem</div>
-  <div class="section-title">Paper is failing your children</div>
-  <div class="section-desc">Special needs organizations face the same daily struggle — too much administration, not enough care time.</div>
-
-  <div class="problem-grid">
-    <div class="problem-card">
-      <div class="problem-icon">📄</div>
-      <div class="problem-title">Everything is on paper</div>
-      <div class="problem-text">Daily observations, medication logs, incident reports — all written by hand, filed in folders, impossible to search or analyze.</div>
-    </div>
-    <div class="problem-card">
-      <div class="problem-icon">🔄</div>
-      <div class="problem-title">Shift handovers get lost</div>
-      <div class="problem-text">Critical information about a child's day doesn't reach the next shift. Important observations are forgotten or misread.</div>
-    </div>
-    <div class="problem-card">
-      <div class="problem-icon">👨‍👩‍👧</div>
-      <div class="problem-title">Parents are left in the dark</div>
-      <div class="problem-text">Families want to know how their child's day was. Writing individual parent updates takes hours that staff don't have.</div>
-    </div>
-    <div class="problem-card">
-      <div class="problem-icon">📋</div>
-      <div class="problem-title">Compliance is stressful</div>
-      <div class="problem-text">SGB VIII and SGB IX require detailed documentation. Missing records mean compliance failures and inspection problems.</div>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- WORKFLOW -->
-<div class="section">
-  <div class="section-label">How It Works</div>
-  <div class="section-title">From voice to structured care — in seconds</div>
-  <div class="section-desc">A support worker speaks naturally. AgentRai does the rest.</div>
-
-  <div class="workflow">
-    <div class="workflow-steps">
-      <div class="workflow-step">
-        <div class="step-circle" style="background:#F0FDFA;">🎙️</div>
-        <div class="step-title">Staff speaks</div>
-        <div class="step-desc">30 seconds of natural speech about the session</div>
-      </div>
-      <div class="workflow-step">
-        <div class="step-circle" style="background:#F0FDFA;">🔊</div>
-        <div class="step-title">Whisper transcribes</div>
-        <div class="step-desc">Local AI converts speech to text — offline, no data leaves</div>
-      </div>
-      <div class="workflow-step">
-        <div class="step-circle" style="background:#F0FDFA;">🤖</div>
-        <div class="step-title">AI structures</div>
-        <div class="step-desc">Gemini extracts mood, activities, medication, follow-ups</div>
-      </div>
-      <div class="workflow-step">
-        <div class="step-circle" style="background:#F0FDFA;">✅</div>
-        <div class="step-title">Staff approves</div>
-        <div class="step-desc">One tap to confirm — human always in control</div>
-      </div>
-      <div class="workflow-step">
-        <div class="step-circle" style="background:#F0FDFA;">📱</div>
-        <div class="step-title">Parents notified</div>
-        <div class="step-desc">Warm daily report sent automatically at 17:00</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
 
 <!-- FEATURES -->
-<div class="section">
-  <div class="section-label">Features</div>
-  <div class="section-title">Everything your organization needs</div>
-  <div class="section-desc">Built specifically for special needs schools and residential care organizations in Germany.</div>
-
+<section id="features">
+  <div class="section-eyebrow">Platform Features</div>
+  <div class="section-title">One platform, six AI-powered workflows</div>
+  <p class="section-sub">AgentRai replaces disconnected tools with a coordinated system that captures, structures, and acts on care data automatically.</p>
   <div class="features-grid">
     <div class="feature-card">
-      <div class="feature-icon" style="background:#F0FDFA;">🎙️</div>
-      <div class="feature-title">Voice Observations</div>
-      <div class="feature-desc">Speak a session note in 30 seconds. AI structures it into mood, activities, nutrition, medication, and follow-ups. Bilingual — English and German.</div>
-      <div class="feature-tags">
-        <span class="tag" style="background:#F0FDFA;color:#0D9488;">AI-powered</span>
-        <span class="tag" style="background:#F0FDFA;color:#0D9488;">EN + DE</span>
-        <span class="tag" style="background:#F0FDFA;color:#0D9488;">Offline</span>
+      <div class="feature-icon" style="background:var(--accent-soft);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
       </div>
+      <div class="feature-title">Voice-to-Note ETL</div>
+      <div class="feature-desc">Caregiver speaks → local Whisper transcribes → Gemini structures into typed care note → saved to PostgreSQL. Fully offline-capable.</div>
+      <span class="feature-tag">Data Engineering</span>
     </div>
-
     <div class="feature-card">
-      <div class="feature-icon" style="background:#FFF7ED;">👦</div>
-      <div class="feature-title">Child Digital Profile</div>
-      <div class="feature-desc">Complete profile per child — diagnosis, communication method, triggers, calming strategies, food preferences, medication schedule, and emergency contacts. Substitute staff ready in 2 minutes.</div>
-      <div class="feature-tags">
-        <span class="tag" style="background:#FFF7ED;color:#EA580C;">Behavioral profile</span>
-        <span class="tag" style="background:#FFF7ED;color:#EA580C;">Access controlled</span>
+      <div class="feature-icon" style="background:var(--accent2-soft);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
       </div>
+      <div class="feature-title">Shift Handover Agent</div>
+      <div class="feature-desc">RAG-powered handover summaries generated at 06:30 daily. Retrieves recent observations, incidents and flags via agentic memory.</div>
+      <span class="feature-tag">Multi-Agent</span>
     </div>
-
     <div class="feature-card">
-      <div class="feature-icon" style="background:#F0FDF4;">📊</div>
-      <div class="feature-title">Daily Parent Report</div>
-      <div class="feature-desc">AI reads all observations from the day and generates a warm, readable parent update — communication, mood, eating, activities, therapy, medication. Sent automatically at 17:00.</div>
-      <div class="feature-tags">
-        <span class="tag" style="background:#F0FDF4;color:#16A34A;">Auto-generated</span>
-        <span class="tag" style="background:#F0FDF4;color:#16A34A;">RAG-powered</span>
+      <div class="feature-icon" style="background:var(--warn-soft);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       </div>
+      <div class="feature-title">Family Portal</div>
+      <div class="feature-desc">Dedicated parent view with AI-generated daily reports, observations, and two-way messaging. Separate JWT-secured access.</div>
+      <span class="feature-tag">RBAC</span>
     </div>
-
     <div class="feature-card">
-      <div class="feature-icon" style="background:#EFF6FF;">🔄</div>
-      <div class="feature-title">Shift Handovers</div>
-      <div class="feature-desc">AI reads the last 10 approved observations and generates a structured handover summary for the next shift. Ongoing concerns, immediate actions, and follow-ups — nothing gets lost.</div>
-      <div class="feature-tags">
-        <span class="tag" style="background:#EFF6FF;color:#2563EB;">RAG</span>
-        <span class="tag" style="background:#EFF6FF;color:#2563EB;">Agentic memory</span>
+      <div class="feature-icon" style="background:#F3E8FF;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       </div>
+      <div class="feature-title">Compliance Agent</div>
+      <div class="feature-desc">Nightly scan at 21:00 checks documentation against SGB VIII/IX standards. Flags incomplete records before deadlines.</div>
+      <span class="feature-tag">Scheduler</span>
     </div>
-
     <div class="feature-card">
-      <div class="feature-icon" style="background:#FDF4FF;">⚡</div>
-      <div class="feature-title">Incident Recording</div>
-      <div class="feature-desc">Record behavioral incidents in 30 seconds — situation, trigger, what helped, duration. Over time, AI detects patterns: "Leon becomes distressed during unexpected transitions."</div>
-      <div class="feature-tags">
-        <span class="tag" style="background:#FDF4FF;color:#9333EA;">Pattern detection</span>
-        <span class="tag" style="background:#FDF4FF;color:#9333EA;">30 seconds</span>
+      <div class="feature-icon" style="background:var(--accent-soft);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       </div>
+      <div class="feature-title">Feature Store + Analytics</div>
+      <div class="feature-desc">Per-child wellness scores, mood stability index, medication compliance rate. Time-series trends with SSE streaming dashboard.</div>
+      <span class="feature-tag">ML Features</span>
     </div>
-
     <div class="feature-card">
-      <div class="feature-icon" style="background:#FFF1F2;">✅</div>
-      <div class="feature-title">Compliance Monitoring</div>
-      <div class="feature-desc">Automatic nightly check against SGB VIII/IX standards. Flags missing mobility assessments, overdue family updates, and documentation gaps. Never miss an inspection again.</div>
-      <div class="feature-tags">
-        <span class="tag" style="background:#FFF1F2;color:#E11D48;">SGB VIII/IX</span>
-        <span class="tag" style="background:#FFF1F2;color:#E11D48;">Auto nightly</span>
+      <div class="feature-icon" style="background:var(--accent2-soft);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </div>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#F0FDFA;">👥</div>
-      <div class="feature-title">Group Management</div>
-      <div class="feature-desc">Organize children and staff into groups — Sunflowers, Butterflies, etc. Each group has a head worker. Staff see only their group. Directors see everything.</div>
-      <div class="feature-tags">
-        <span class="tag" style="background:#F0FDFA;color:#0D9488;">Role-based</span>
-        <span class="tag" style="background:#F0FDFA;color:#0D9488;">RBAC</span>
-      </div>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#FFFBEB;">📅</div>
-      <div class="feature-title">Appointments & Schedules</div>
-      <div class="feature-desc">Track hospital visits, therapy sessions, and school appointments per child. Employee work schedules with shift times, vacation days, and sick leave — all in one place.</div>
-      <div class="feature-tags">
-        <span class="tag" style="background:#FFFBEB;color:#D97706;">Appointments</span>
-        <span class="tag" style="background:#FFFBEB;color:#D97706;">Schedules</span>
-      </div>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#F0FDF4;">💬</div>
-      <div class="feature-title">Family Portal & Messaging</div>
-      <div class="feature-desc">Parents get their own login — linked to their child only. They see daily reports, approved observations, and can send messages directly to Leiterin or Gruppenleitung.</div>
-      <div class="feature-tags">
-        <span class="tag" style="background:#F0FDF4;color:#16A34A;">Parent app</span>
-        <span class="tag" style="background:#F0FDF4;color:#16A34A;">Secure</span>
-      </div>
+      <div class="feature-title">Full-Text Search</div>
+      <div class="feature-desc">Cross-observation and incident search with configurable time windows. Data quality scoring (0–100) with field-level validation.</div>
+      <span class="feature-tag">Data Quality</span>
     </div>
   </div>
-</div>
+</section>
 
 <div class="divider"></div>
 
-<!-- ROLES -->
-<div class="section">
-  <div class="section-label">Access Control</div>
-  <div class="section-title">The right access for every role</div>
-  <div class="section-desc">Every staff member sees exactly what they need — nothing more, nothing less.</div>
-
-  <div class="roles-grid">
-    <div class="role-card" style="border-color:#C4B5FD;">
-      <div class="role-emoji">👑</div>
-      <div class="role-title" style="color:#7C3AED;">Leiterin / Chefin</div>
-      <div class="role-subtitle">Director</div>
-      <div class="role-perms">
-        <div class="perm">Full system access</div>
-        <div class="perm">Add/remove children</div>
-        <div class="perm">Manage all staff</div>
-        <div class="perm">View all reports</div>
-        <div class="perm">Reply to family messages</div>
-        <div class="perm">Compliance dashboard</div>
+<!-- AGENTS -->
+<section id="agents">
+  <div class="section-eyebrow">Agent Architecture</div>
+  <div class="section-title">7 specialized agents, one orchestrator</div>
+  <p class="section-sub">Each agent handles a specific care workflow. The orchestrator routes requests and coordinates multi-agent tasks.</p>
+  <div class="agents-layout">
+    <div class="agent-list">
+      <div class="agent-item active" onclick="setAgent(0)">
+        <div class="agent-dot" style="background:var(--accent-soft);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Documentation Agent</div>
+          <div class="agent-desc">Voice transcript → structured care note (EN/DE)</div>
+        </div>
+      </div>
+      <div class="agent-item" onclick="setAgent(1)">
+        <div class="agent-dot" style="background:var(--accent2-soft);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Handover Agent</div>
+          <div class="agent-desc">RAG shift summaries with agentic memory retrieval</div>
+        </div>
+      </div>
+      <div class="agent-item" onclick="setAgent(2)">
+        <div class="agent-dot" style="background:var(--warn-soft);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Reminder Agent</div>
+          <div class="agent-desc">Missing field detection, 06:00 daily alerts</div>
+        </div>
+      </div>
+      <div class="agent-item" onclick="setAgent(3)">
+        <div class="agent-dot" style="background:#F3E8FF;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Family Agent</div>
+          <div class="agent-desc">Parent-facing RAG communication, 14-day context</div>
+        </div>
+      </div>
+      <div class="agent-item" onclick="setAgent(4)">
+        <div class="agent-dot" style="background:var(--accent-soft);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Compliance Agent</div>
+          <div class="agent-desc">SGB VIII/IX nightly checks, 21:00 scheduler</div>
+        </div>
+      </div>
+      <div class="agent-item" onclick="setAgent(5)">
+        <div class="agent-dot" style="background:var(--accent2-soft);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><circle cx="11" cy="11" r="8"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Observation Agent</div>
+          <div class="agent-desc">Structured special-needs behavioral logging</div>
+        </div>
+      </div>
+      <div class="agent-item" onclick="setAgent(6)">
+        <div class="agent-dot" style="background:#FEF3C7;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+        </div>
+        <div>
+          <div class="agent-name">Daily Report Agent</div>
+          <div class="agent-desc">Auto parent report from observations, 17:00 daily</div>
+        </div>
       </div>
     </div>
 
-    <div class="role-card" style="border-color:#93C5FD;">
-      <div class="role-emoji">🏫</div>
-      <div class="role-title" style="color:#2563EB;">Gruppenleitung</div>
-      <div class="role-subtitle">Group Head</div>
-      <div class="role-perms">
-        <div class="perm">Full access — own group</div>
-        <div class="perm">Add children to group</div>
-        <div class="perm">Approve observations</div>
-        <div class="perm">Generate reports</div>
-        <div class="perm">Reply to family messages</div>
-        <div class="perm no">Other groups hidden</div>
+    <div class="agent-demo">
+      <div class="agent-demo-bar">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span id="demo-title">Documentation Agent · Live flow</span>
       </div>
-    </div>
-
-    <div class="role-card" style="border-color:#86EFAC;">
-      <div class="role-emoji">💚</div>
-      <div class="role-title" style="color:#16A34A;">FSJ / BFD / Azubi</div>
-      <div class="role-subtitle">Support Worker</div>
-      <div class="role-perms">
-        <div class="perm">Create observations</div>
-        <div class="perm">Record incidents</div>
-        <div class="perm">View child profiles</div>
-        <div class="perm">View own schedule</div>
-        <div class="perm no">Cannot add children</div>
-        <div class="perm no">Cannot manage staff</div>
-      </div>
-    </div>
-
-    <div class="role-card" style="border-color:#FDE68A;">
-      <div class="role-emoji">👨‍👩‍👧</div>
-      <div class="role-title" style="color:#D97706;">Elternteil</div>
-      <div class="role-subtitle">Family Member</div>
-      <div class="role-perms">
-        <div class="perm">Daily reports — own child</div>
-        <div class="perm">Approved observations</div>
-        <div class="perm">Send messages to team</div>
-        <div class="perm">View appointments</div>
-        <div class="perm no">No other children</div>
-        <div class="perm no">No staff data</div>
+      <div class="agent-demo-body" id="demo-body">
+        <div class="demo-step">
+          <div class="demo-step-num">1</div>
+          <div class="demo-step-content">
+            <div class="demo-step-label">Voice Input</div>
+            <div class="demo-step-text">"Leon war heute sehr aufgeregt beim Mittagessen, hat kaum gegessen und zweimal geschrien…"</div>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="demo-step-num">2</div>
+          <div class="demo-step-content">
+            <div class="demo-step-label">Whisper Transcription (local)</div>
+            <div class="demo-step-text">Raw text extracted offline · 0.8s latency · No data leaves device</div>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="demo-step-num">3</div>
+          <div class="demo-step-content">
+            <div class="demo-step-label">Gemini Structuring</div>
+            <div class="demo-step-text">mood: anxious · meal_lunch: verweigert · urgency: attention_needed · follow_up: Eltern informieren</div>
+          </div>
+        </div>
+        <div class="demo-step">
+          <div class="demo-step-num">4</div>
+          <div class="demo-step-content">
+            <div class="demo-step-label">Saved to DB + Feature Store updated</div>
+            <div class="demo-step-text accent">✓ Observation stored · Wellness score recalculated · Reminder agent notified</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <div class="divider"></div>
 
-<!-- AI AGENTS -->
-<div class="section">
-  <div class="section-label">AI Technology</div>
-  <div class="section-title">6 AI agents working for your team</div>
-  <div class="section-desc">Each agent has a specific job. They share memory, coordinate automatically, and run 24/7 in the background.</div>
-
-  <div class="ai-grid">
-    <div class="ai-card">
-      <div class="ai-title">🎙️ Documentation Agent</div>
-      <div class="ai-desc">Converts spoken transcripts into structured care notes. Detects missing fields, assigns urgency levels, and flags for review. Supports German and English.</div>
+<!-- STACK -->
+<section id="stack">
+  <div class="section-eyebrow">Tech Stack</div>
+  <div class="section-title">Built for production from day one</div>
+  <p class="section-sub">Every technology choice is portfolio-ready: industry-standard tools used in real enterprise care systems.</p>
+  <div class="stack-grid">
+    <div class="stack-item">
+      <div class="stack-badge">🐍</div>
+      <div class="stack-name">Python + FastAPI</div>
+      <div class="stack-role">Backend · REST API</div>
     </div>
-    <div class="ai-card">
-      <div class="ai-title">🔄 Handover Agent (RAG)</div>
-      <div class="ai-desc">Retrieves the last 10 approved observations before generating a shift summary. Uses real documented history — never invents information. Updates agentic memory after every run.</div>
+    <div class="stack-item">
+      <div class="stack-badge">⚛️</div>
+      <div class="stack-name">React 18</div>
+      <div class="stack-role">Frontend · SPA</div>
     </div>
-    <div class="ai-card">
-      <div class="ai-title">📊 Daily Report Agent</div>
-      <div class="ai-desc">Reads all observations from the day and generates a warm parent update. Runs automatically at 17:00 for every active child. Bilingual output.</div>
+    <div class="stack-item">
+      <div class="stack-badge">🗄️</div>
+      <div class="stack-name">PostgreSQL</div>
+      <div class="stack-role">Database · 16+ tables</div>
     </div>
-    <div class="ai-card">
-      <div class="ai-title">✅ Compliance Agent</div>
-      <div class="ai-desc">Checks documentation against SGB VIII/IX standards every night. Flags overdue mobility assessments, missing family updates, and incomplete records. Generates compliance reports.</div>
+    <div class="stack-item">
+      <div class="stack-badge">🎙️</div>
+      <div class="stack-name">Whisper</div>
+      <div class="stack-role">STT · Offline</div>
     </div>
-    <div class="ai-card">
-      <div class="ai-title">🔔 Reminder Agent</div>
-      <div class="ai-desc">Scans recent observations for missing critical fields. Runs at 06:00 to alert staff before the shift starts. Prevents incomplete documentation before it becomes a compliance issue.</div>
+    <div class="stack-item">
+      <div class="stack-badge">✦</div>
+      <div class="stack-name">Gemini API</div>
+      <div class="stack-role">LLM · Structuring</div>
     </div>
-    <div class="ai-card">
-      <div class="ai-title">💬 Family Communication Agent</div>
-      <div class="ai-desc">Generates warm, non-clinical family updates from the last 14 days of approved observations. Converts clinical language into readable summaries parents actually understand.</div>
+    <div class="stack-item">
+      <div class="stack-badge">🐳</div>
+      <div class="stack-name">Docker</div>
+      <div class="stack-role">Deployment · pgvector</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-badge">🌐</div>
+      <div class="stack-name">i18next</div>
+      <div class="stack-role">EN/DE bilingual UI</div>
+    </div>
+    <div class="stack-item">
+      <div class="stack-badge">⏰</div>
+      <div class="stack-name">APScheduler</div>
+      <div class="stack-role">4 daily auto-jobs</div>
     </div>
   </div>
-</div>
+  <div class="compliance-row">
+    <div class="compliance-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      SGB VIII/IX Compliant
+    </div>
+    <div class="compliance-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      JWT RBAC · 4 Roles
+    </div>
+    <div class="compliance-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+      Audit Trail
+    </div>
+    <div class="compliance-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Germany-hosted ready
+    </div>
+    <div class="compliance-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      SSE Real-time streaming
+    </div>
+  </div>
+</section>
 
 <div class="divider"></div>
 
-<!-- AUTOMATION SCHEDULE -->
-<div class="section">
-  <div class="section-label">Automation</div>
-  <div class="section-title">Runs automatically — no staff action needed</div>
-  <div class="section-desc">AgentRai's scheduler runs 4 jobs every day without anyone pressing a button.</div>
-
-  <div class="schedule-grid">
-    <div class="schedule-item">
-      <div class="schedule-time">06:00</div>
-      <div>
-        <div class="schedule-desc">Morning reminders</div>
-        <div class="schedule-sub">Checks all children for missing documentation from previous day</div>
-      </div>
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-eyebrow">Pricing</div>
+  <div class="section-title">Simple, school-friendly pricing</div>
+  <p class="section-sub">No per-seat fees. Pay for the facility, not headcount. Government grant applications supported.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-tier">Starter</div>
+      <div class="pricing-price">€49</div>
+      <div class="pricing-period">per month</div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> Up to 10 children</li>
+        <li><span class="check">✓</span> Up to 5 staff accounts</li>
+        <li><span class="check">✓</span> Voice documentation</li>
+        <li><span class="check">✓</span> Daily reports</li>
+        <li><span class="check">✓</span> Family portal</li>
+      </ul>
+      <a href="mailto:fahad.omor19@gmail.com" class="pricing-btn outline">Contact for pilot</a>
     </div>
-    <div class="schedule-item">
-      <div class="schedule-time">06:30</div>
-      <div>
-        <div class="schedule-desc">Shift handovers generated</div>
-        <div class="schedule-sub">AI reads overnight observations and prepares morning briefings</div>
-      </div>
+    <div class="pricing-card featured">
+      <div class="pricing-popular">Most popular</div>
+      <div class="pricing-tier">Professional</div>
+      <div class="pricing-price">€99</div>
+      <div class="pricing-period">per month</div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> Up to 30 children</li>
+        <li><span class="check">✓</span> Unlimited staff</li>
+        <li><span class="check">✓</span> All 7 AI agents</li>
+        <li><span class="check">✓</span> Compliance monitoring</li>
+        <li><span class="check">✓</span> Analytics dashboard</li>
+        <li><span class="check">✓</span> SGB VIII/IX reports</li>
+      </ul>
+      <a href="mailto:fahad.omor19@gmail.com" class="pricing-btn primary">Request demo</a>
     </div>
-    <div class="schedule-item">
-      <div class="schedule-time">17:00</div>
-      <div>
-        <div class="schedule-desc">Daily parent reports</div>
-        <div class="schedule-sub">Warm summaries generated for all children and sent to family portal</div>
-      </div>
-    </div>
-    <div class="schedule-item">
-      <div class="schedule-time">21:00</div>
-      <div>
-        <div class="schedule-desc">Compliance check</div>
-        <div class="schedule-sub">Every child checked against SGB VIII/IX standards — gaps flagged</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- PRIVACY -->
-<div class="section">
-  <div class="section-label">Privacy & Security</div>
-  <div class="section-title">Built for German data protection law</div>
-
-  <div class="problem-grid">
-    <div class="problem-card">
-      <div class="problem-icon">🇩🇪</div>
-      <div class="problem-title">GDPR compliant</div>
-      <div class="problem-text">All data processed according to DSGVO. Data hosted on servers in Germany. No data sent to foreign countries without consent.</div>
-    </div>
-    <div class="problem-card">
-      <div class="problem-icon">🔒</div>
-      <div class="problem-title">Role-based access</div>
-      <div class="problem-text">Every user sees only what their role permits. Family members can only access their own child's data. Audit trail records every action.</div>
-    </div>
-    <div class="problem-card">
-      <div class="problem-icon">🎙️</div>
-      <div class="problem-title">Voice processing is local</div>
-      <div class="problem-text">Speech-to-text runs entirely on your server using OpenAI Whisper. Audio never leaves your organization's infrastructure.</div>
-    </div>
-    <div class="problem-card">
-      <div class="problem-icon">📋</div>
-      <div class="problem-title">Complete audit trail</div>
-      <div class="problem-text">Every action logged — who created a note, who approved it, who read it. Full traceability for inspections and compliance reviews.</div>
+    <div class="pricing-card">
+      <div class="pricing-tier">Enterprise</div>
+      <div class="pricing-price">€199</div>
+      <div class="pricing-period">per month</div>
+      <ul class="pricing-features">
+        <li><span class="check">✓</span> Unlimited children</li>
+        <li><span class="check">✓</span> Custom branding</li>
+        <li><span class="check">✓</span> Self-hosted option</li>
+        <li><span class="check">✓</span> Priority support</li>
+        <li><span class="check">✓</span> Grant application help</li>
+      </ul>
+      <a href="mailto:fahad.omor19@gmail.com" class="pricing-btn outline">Talk to us</a>
     </div>
   </div>
-</div>
-
-<div class="divider"></div>
-
-<!-- CTA -->
-<div class="section">
-  <div class="cta">
-    <h2>Ready to see AgentRai in action?</h2>
-    <p>We'd love to show you a live demo tailored to your organization's workflow. No commitment required.</p>
-    <div class="cta-buttons">
-      <button class="btn-primary">Request a Demo</button>
-      <button class="btn-secondary">Contact Us</button>
-    </div>
-    <p style="margin-top:24px;font-size:14px;opacity:0.6;">fahad@agentrai.de · agentrai.de</p>
-  </div>
-</div>
+</section>
 
 <!-- FOOTER -->
-<div class="footer">
-  <p style="font-weight:600;color:#0D9488;font-size:16px;margin-bottom:8px;">AgentRai</p>
-  <p>AI-Powered Care Coordination · Built in Germany · GDPR Compliant</p>
-  <p style="margin-top:8px;">© 2026 AgentRai. All rights reserved.</p>
-</div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 AgentRai · Built by Fahad · TU Nürnberg M.Sc. AI & Robotics</div>
+    <div class="footer-links">
+      <a href="https://github.com/Agentrai/platform" target="_blank" rel="noopener">Backend</a>
+      <a href="https://github.com/Agentrai/platform-frontend" target="_blank" rel="noopener">Frontend</a>
+      <a href="https://agentrai.github.io/agentrai-website" target="_blank" rel="noopener">Website</a>
+    </div>
+  </div>
+</footer>
 
-</body>
-</html>
+<script>
+const agentDemos = [
+  {
+    title: "Documentation Agent · Live flow",
+    steps: [
+      { label: "Voice Input", text: '"Leon war heute sehr aufgeregt beim Mittagessen, hat kaum gegessen und zweimal geschrien…"', accent: false },
+      { label: "Whisper Transcription (local)", text: "Raw text extracted offline · 0.8s latency · No data leaves device", accent: false },
+      { label: "Gemini Structuring", text: "mood: anxious · meal_lunch: verweigert · urgency: attention_needed · follow_up: Eltern informieren", accent: false },
+      { label: "Saved to DB + Feature Store updated", text: "✓ Observation stored · Wellness score recalculated · Reminder agent notified", accent: true }
+    ]
+  },
+  {
+    title: "Handover Agent · RAG retrieval",
+    steps: [
+      { label: "Trigger", text: "APScheduler fires at 06:30 daily for each active group", accent: false },
+      { label: "Memory Retrieval", text: "Fetches last 24h observations, incidents, medication events via agent_memory table", accent: false },
+      { label: "RAG Generation", text: "Gemini synthesizes concise handover per child: status, flags, next actions", accent: false },
+      { label: "Delivered", text: "✓ Handover saved · Staff notified · Audit trail logged", accent: true }
+    ]
+  },
+  {
+    title: "Reminder Agent · Missing field scan",
+    steps: [
+      { label: "Trigger", text: "APScheduler fires at 06:00 daily", accent: false },
+      { label: "Scan", text: "Checks yesterday's observations for required fields: mood, medication, follow_up", accent: false },
+      { label: "Detection", text: "2 observations missing medication field · 1 missing follow-up note", accent: false },
+      { label: "Alert", text: "✓ Push notifications sent · Items flagged in dashboard · Compliance log updated", accent: true }
+    ]
+  },
+  {
+    title: "Family Agent · Parent communication",
+    steps: [
+      { label: "Context Window", text: "Retrieves last 14 days of observations for the child using RAG", accent: false },
+      { label: "Parent Question", text: '"Wie war Leon diese Woche? Hat er gut gegessen?"', accent: false },
+      { label: "Agent Response", text: "Leon hatte insgesamt eine gute Woche. Beim Mittagessen war er Donnerstag etwas unruhig…", accent: false },
+      { label: "Delivered", text: "✓ Response shown in family portal · Message logged · Thread stored", accent: true }
+    ]
+  },
+  {
+    title: "Compliance Agent · SGB VIII/IX check",
+    steps: [
+      { label: "Trigger", text: "APScheduler fires at 21:00 nightly", accent: false },
+      { label: "Standards Check", text: "Validates documentation against SGB VIII § 8a and SGB IX § 75 requirements", accent: false },
+      { label: "Findings", text: "1 child missing 3-day observation gap · 2 incident reports need follow-up signatures", accent: false },
+      { label: "Report", text: "✓ Compliance score: 94/100 · Issues flagged for director · Audit log updated", accent: true }
+    ]
+  },
+  {
+    title: "Observation Agent · Behavioral logging",
+    steps: [
+      { label: "Input", text: "Staff submits observation for Sophie via web or mobile form", accent: false },
+      { label: "Structuring", text: "Agent parses: activities_participated, meal data, mood, communication events", accent: false },
+      { label: "Quality Check", text: "Data quality score: 88/100 · Warnings: missing therapy_session field", accent: false },
+      { label: "Stored", text: "✓ Observation saved · Feature store updated · Behavioral profile refreshed", accent: true }
+    ]
+  },
+  {
+    title: "Daily Report Agent · Parent update",
+    steps: [
+      { label: "Trigger", text: "APScheduler fires at 17:00 for each child with new observations", accent: false },
+      { label: "Data Aggregation", text: "Collects day's mood, meals, activities, therapy, medication into summary", accent: false },
+      { label: "Report Generation", text: "Gemini writes warm, parent-friendly summary in selected language (DE/EN)", accent: false },
+      { label: "Delivered", text: "✓ Report visible in family portal · Parents notified · Archive stored", accent: true }
+    ]
+  }
+];
+
+function setAgent(idx) {
+  document.querySelectorAll('.agent-item').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+  const d = agentDemos[idx];
+  document.getElementById('demo-title').textContent = d.title;
+  document.getElementById('demo-body').innerHTML = d.steps.map((s, i) => `
+    <div class="demo-step">
+      <div class="demo-step-num">${i+1}</div>
+      <div class="demo-step-content">
+        <div class="demo-step-label">${s.label}</div>
+        <div class="demo-step-text${s.accent ? ' accent' : ''}">${s.text}</div>
+      </div>
+    </div>
+  `).join('');
+}
+</script>
+
+</body></html>
